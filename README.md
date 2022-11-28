@@ -45,3 +45,10 @@ is planned for a future update.
 
 P.S. If you'd like, you can remove these comments before submitting your extension 😉
 -->
+
+## Manual Install
+
+1. Download this project and open with Nova
+2. Click Extensions -> Active Project as Extension
+3. In yaral file, choose Editor in Menu -> Syntax -> YaraL
+4. In Extensions menu, choose Extension Library -> Configure Themes -> select YaraL theme
