@@ -38,11 +38,11 @@
     <scopes>
         <include syntax="self" collection="comments" />
         
-        <scope name="yaral.definition.class">
+        <scope name="yaral.entity.declaration.keyword">
             <starts-with>
                 <expression>\b(rule)\s*(\S+)\b</expression>
-                <capture number="1" name="yaral.keyword.type" />
-                <capture number="2" name="identifier.struct" />
+                <capture number="1" name="yaral.entity.declaration.keyword" />
+                <capture number="2" name="yaral.entity.name.keyword" />
             </starts-with>
             <ends-with>
                 <expression>\s*</expression>
@@ -52,12 +52,12 @@
             <starts-with>
                 <!-- Opening bracket -->
                 <expression>(\{)</expression>
-                <capture number="1" name="javascript.keyword.class" />
+                <!-- <capture number="1" name="javascript.keyword.class" /> -->
             </starts-with>
             <ends-with>
                 <!-- Closing bracket -->
                 <expression>(\})</expression>
-                <capture number="1" name="javascript.keyword.class" />
+                <!-- <capture number="1" name="javascript.keyword.class" /> -->
             </ends-with>
             
             <subscopes anchored="false">
@@ -67,29 +67,29 @@
                     
                     <starts-with>
                         <expression>\b(meta)\b(:)</expression>
-                        <capture number="1" name="yaral.identifier.type.struct" />
-                        <capture number="2" name="yaral.identifier.type.struct" />
+                        <capture number="1" name="yaral.struct.declaration.keyword" />
+                        <capture number="2" name="yaral.struct.declaration.keyword" />
                     </starts-with>
                     <ends-with>
                         <expression>\b(meta|events|match|outcome|condition)\b(:)</expression>
-                        <capture number="1" name="yaral.identifier.type.struct" />
-                        <capture number="2" name="yaral.identifier.type.struct" />
+                        <capture number="1" name="yaral.struct.declaration.keyword"/>
+                        <capture number="2" name="yaral.struct.declaration.keyword" />
                     </ends-with>
                     <subscopes>
                         <include syntax="self" collection="comments" />
                         <include syntax="self" collection="commons" />
                         <scope name="yaral.tag.attribute">
                             <expression>(.*)=</expression>
-                            <capture number="1" name="yaral.tag.attribute" />
+                            <capture number="1" name="meta.parameter.variable" />
                             <!-- <capture number="2" name="yaral.tag.attribute" /> -->
                         </scope>
                     </subscopes>
                 </scope>
-                <scope name="yaral.identifier.type.struct">
+                <scope name="yaral.struct.declaration.keyword">
                     <starts-with>
                         <expression>\b(events|match|outcome|condition)\b(:)</expression>
-                        <capture number="1" name="yaral.identifier.type.struct" />
-                        <capture number="2" name="yaral.identifier.type.struct" />
+                        <capture number="1" name="yaral.struct.declaration.keyword" />
+                        <capture number="2" name="yaral.struct.declaration.keyword" />
                     </starts-with>
                     <ends-with>
                         <expression>$</expression>
@@ -102,22 +102,6 @@
                 <include syntax="self" collection="keywords" />
             </subscopes>
         </scope>
-
-        
-        <!-- Values -->
-        <scope name="html.value.entity.numeric">
-            <expression>&amp;\#[0-9]+;</expression>
-        </scope>
-        <scope name="mylang.value.entity.named">
-            <strings prefix="&amp;" suffix=";" word-boundary="false">
-                <string>amp</string>
-                <string>lt</string>
-                <string>gt</string>
-                <string>apos</string>
-                <string>quot</string>
-            </strings>
-        </scope>
-
     </scopes>
     
     <collections>
@@ -140,7 +124,6 @@
                         <string>over</string>
                         <string>and</string>
                         <string>in</string>
-                        <string>cdrs</string>
                     </strings>
                 </scope>
             </collection>
@@ -182,21 +165,26 @@
                     <!-- Matches a boolean keyword -->
                     <expression>true|false</expression>
                 </scope>
-                <scope name="yaral.string">
+                <scope name="yaral.double.quoted.string">
                     <!-- Matches text between double-quotes -->
-                    <expression>&quot;[^&quot;]*&quot;</expression>
+                    <expression>(&quot;)([^&quot;]*)(&quot;)</expression>
+                    <capture number="1" name="yaral.string.definition.punctuation"/>
+                    <capture number="2" name="yaral.double.quoted.string"/>
+                    <capture number="3" name="yaral.string.definition.punctuation"/>
                 </scope>
             </collection>
             <collection name="variables">
-                <scope name="yaral.variable.constants.keyword.class">
+                <scope name="yaral.parameter.variable">
                     <expression>[\$#][a-zA-Z0-9._]+</expression>
                 </scope>
-                <scope name="yaral.refer.keyword.class">
+                <scope name="reference-type.parameter.variable">
                     <starts-with>
                         <expression>\%&lt;</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
                     </starts-with>
                     <ends-with>
                         <expression>&gt;</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
                     </ends-with>
                 </scope>
             </collection>

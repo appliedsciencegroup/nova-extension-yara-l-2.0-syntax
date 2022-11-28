@@ -139,7 +139,6 @@ rule SuspiciousIPLogins {
 rule RegexRuleExample {
   meta:
 	author = "noone@altostrat.com"
-fadsds	
   events:
 	$e.principal.hostname = $host
 	$host = /.*HoSt.*/ nocase
