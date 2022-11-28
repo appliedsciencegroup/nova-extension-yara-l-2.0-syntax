@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax name="mylang">
+    <meta>
+        <name>YaraL</name>
+        <type>structured</type>
+        <preferred-file-extension>yaral</preferred-file-extension>
+    </meta>
+    
+    <detectors>
+        <extension priority="1.0">yaral</extension>
+    </detectors>
+    
+    <indentation>
+        <increase>
+            <expression>^\s*&lt;(([^!/?]|%)(?!.+?([/%]&gt;|&lt;/.+?&gt;))|[%!]--\s*$)</expression>
+        </increase>
+        <decrease>
+            <expression>^\s*(&lt;/[^&gt;]+&gt;|--&gt;|--%&gt;)</expression>
+        </decrease>
+    </indentation>
+
+    
+    <comments>
+        <single>
+            <expression>//</expression>
+        </single>
+        <multiline>
+            <starts-with>
+                <expression>/*</expression>
+            </starts-with>
+            <ends-with>
+                <expression>*/</expression>
+            </ends-with>
+        </multiline>
+    </comments>
+
+    
+    <scopes>
+        <include syntax="self" collection="comments" />
+        
+        <scope name="yaral.entity.declaration.keyword">
+            <starts-with>
+                <expression>\b(rule)\s*(\S+)\b</expression>
+                <capture number="1" name="yaral.entity.declaration.keyword" />
+                <capture number="2" name="yaral.entity.name.keyword" />
+            </starts-with>
+            <ends-with>
+                <expression>\s*</expression>
+            </ends-with>
+        </scope>
+        <scope name="yaral.rule.definition.class">
+            <starts-with>
+                <!-- Opening bracket -->
+                <expression>(\{)</expression>
+                <!-- <capture number="1" name="javascript.keyword.class" /> -->
+            </starts-with>
+            <ends-with>
+                <!-- Closing bracket -->
+                <expression>(\})</expression>
+                <!-- <capture number="1" name="javascript.keyword.class" /> -->
+            </ends-with>
+            
+            <subscopes anchored="false">
+                <include syntax="self" collection="comments" />
+                <include syntax="self" collection="commons" />
+                <scope name="yaral.meta.definition.class">
+                    
+                    <starts-with>
+                        <expression>\b(meta)\b(:)</expression>
+                        <capture number="1" name="yaral.struct.declaration.keyword" />
+                        <capture number="2" name="yaral.struct.declaration.keyword" />
+                    </starts-with>
+                    <ends-with>
+                        <expression>\b(meta|events|match|outcome|condition)\b(:)</expression>
+                        <capture number="1" name="yaral.struct.declaration.keyword"/>
+                        <capture number="2" name="yaral.struct.declaration.keyword" />
+                    </ends-with>
+                    <subscopes>
+                        <include syntax="self" collection="comments" />
+                        <include syntax="self" collection="commons" />
+                        <scope name="yaral.tag.attribute">
+                            <expression>(.*)=</expression>
+                            <capture number="1" name="meta.parameter.variable" />
+                        </scope>
+                    </subscopes>
+                </scope>
+                <scope name="yaral.struct.declaration.keyword">
+                    <starts-with>
+                        <expression>\b(events|match|outcome|condition)\b(:)</expression>
+                        <capture number="1" name="yaral.struct.declaration.keyword" />
+                        <capture number="2" name="yaral.struct.declaration.keyword" />
+                    </starts-with>
+                    <ends-with>
+                        <expression>$</expression>
+                    </ends-with>
+                </scope>
+                <!-- Match comments (optionally) -->
+                <include syntax="self" collection="comments" optional="true" />
+                <include syntax="self" collection="commons" />
+                <include syntax="self" collection="variables" />
+                <include syntax="self" collection="keywords" />
+            </subscopes>
+        </scope>
+    </scopes>
+    
+    <collections>
+
+            <!-- Keywords -->
+            <collection name="keywords">
+                <scope name="yaral.keyword.construct">
+                    <expression>\b([0-9]+)([yMdHhms])\b</expression>
+                </scope>
+                <scope name="yaral.function">
+                    <starts-with>
+                        <expression>\b([a-zA-Z._]*\()</expression>
+                        <capture number="1" name="yaral.keyword.construct" />
+                    </starts-with>
+                    <ends-with>
+                        <expression>(\))</expression>
+                        <capture number="1" name="yaral.keyword.construct" />
+                    </ends-with>
+                    <subscopes>
+                        <include syntax="self" collection="comments" optional="true" />
+                        <include syntax="self" collection="commons" />
+                        <include syntax="self" collection="variables" />
+                        <include syntax="self" collection="keywords" />
+                    </subscopes>
+                </scope>
+                <scope name="yaral.identifier.method">
+                    <strings>
+                        <string>max</string>
+                        <string>over</string>
+                        <string>and</string>
+                        <string>in</string>
+                        <string>all</string>
+                        <string>nocase</string>
+                        <string>after</string>
+                        <string>not</string>
+                    </strings>
+                </scope>
+            </collection>
+            <collection name="comments">
+                <scope name="yaral.comment.single" spell-check="true">
+                    <expression>(\/\/)(.*)</expression>
+                    <capture number="1" name="javascript.comment.single" />
+                    <capture number="2" name="javascript.comment.single" />
+                </scope>
+                <scope name="yaral.comment.single" spell-check="true">
+                    <expression>(//)(.*)</expression>
+                    <capture number="1" name="yaral.comment.single" />
+                    <capture number="2" name="yaral.comment.single" />
+                </scope>
+                <scope name="yaral.comment.block" spell-check="false">
+                    <starts-with>
+                        <expression>\/\*</expression>
+                    </starts-with>
+                    <ends-with>
+                        <expression>\*\/</expression>
+                    </ends-with>
+                </scope>
+            </collection>
+            
+            <collection name="commons">
+                <scope name="yaral.md5.constants.keyword.class">
+                    <starts-with>
+                        <expression>\/md5</expression>
+                    </starts-with>
+                    <ends-with>
+                        <expression>\/</expression>
+                    </ends-with>
+                </scope>
+                <scope name="yaral.number">
+                    <!-- Matches a number -->
+                    <expression>\b\d+([mhdysHMS])\b</expression>
+                    <capture number="1" name="identifier.constant" />
+                </scope>
+                <scope name="yaral.number">
+                    <!-- Matches a number -->
+                    <expression>\d+</expression>
+                </scope>
+                <scope name="yaral.boolean">
+                    <!-- Matches a boolean keyword -->
+                    <expression>true|false</expression>
+                </scope>
+                <scope name="yaral.double.quoted.string">
+                    <!-- Matches text between double-quotes -->
+                    <expression>(&quot;)([^&quot;]*)(&quot;)</expression>
+                    <capture number="1" name="yaral.string.definition.punctuation"/>
+                    <capture number="2" name="yaral.double.quoted.string"/>
+                    <capture number="3" name="yaral.string.definition.punctuation"/>
+                </scope>
+            </collection>
+            <collection name="variables">
+                <scope name="yaral.parameter.variable">
+                    <expression>[\$#][a-zA-Z0-9._]+</expression>
+                </scope>
+                <scope name="reference-type.parameter.variable">
+                    <starts-with>
+                        <expression>\%&lt;</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </starts-with>
+                    <ends-with>
+                        <expression>&gt;</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </ends-with>
+                </scope>
+                <scope name="reference-type.parameter.variable">
+                    <starts-with>
+                        <expression>\/</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </starts-with>
+                    <ends-with>
+                        <expression>\/</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </ends-with>
+                </scope>
+                <scope name="reference-type.parameter.variable">
+                    <starts-with>
+                        <expression>\`</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </starts-with>
+                    <ends-with>
+                        <expression>\`</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </ends-with>
+                </scope>
+            </collection>
+ 
+       
+    </collections>
+</syntax>
