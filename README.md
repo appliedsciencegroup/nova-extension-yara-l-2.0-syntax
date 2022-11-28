@@ -15,13 +15,13 @@ Let's get started!
 🎈 Include a brief description of the features your syntax extension provides. For example:
 -->
 
-**YaraL** provides syntax highlighting and autocompletion for YaraL2 (https://cloud.google.com/chronicle/docs/detection/yara-l-2-0-overview).
+**YaraL** provides syntax highlighting and autocompletion for YARA-L 2.0. This is a computer language used to create rules for searching through your enterprise log data as it is ingested into your Chronicle account. The YARA-L syntax is derived from the YARA language developed by VirusTotal. The language works in conjunction with the Chronicle Detection Engine and enables you to hunt for threats and other events across large volumes of data. See also [YARA-L 2.0 language syntax](https://cloud.google.com/chronicle/docs/detection/yara-l-2-0-overview)
 
 <!--
 🎈 It can also be helpful to include a screenshot or GIF showing your extension in action:
 -->
 
-![](https://nova.app/images/en/dark/editor.png)
+![](Images/extension/YaraL.png)
 
 ## Language Support
 
@@ -31,14 +31,12 @@ Let's get started!
 
 YaraL currently supports the following features of Important Language:
 
-- Lorem
-- Ipsum
-- Dolor
+- Highlighting syntax of YaraL
+- Customize color schema of YaraL
 
 Support for:
-
-- Sit
-- Amet 
+- Auto complete
+- Validate rule and syntax
 
 is planned for a future update.
 
