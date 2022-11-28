@@ -142,7 +142,10 @@ rule RegexRuleExample {
   events:
 	$e.principal.hostname = $host
 	$host = /.*HoSt.*/ nocase
-	re.regex($e.network.email.from, `.*altostrat\.com`) nocase
+	re.regex($e.network.email.from,"dsdsdsds" ,`.*altostrat\.com`) nocase
+	
+	/*dsdds
+	*/
 
   match:
 	$host over 10m
@@ -211,7 +214,7 @@ rule OutcomeRuleMultiEvent {
 		max(
 			100
 		  + if($hostname = "my-hostname", 100, 50)
-		  + if($severity = "HIGH", 10)
+		  + if($severity = "HIGH", 10)›
 		  + if($severity = "MEDIUM", 5)
 		  + if($severity = "LOW", 1)
 		)
@@ -229,6 +232,7 @@ rule OutcomeRuleMultiEvent {
 	  $asset_id_count = count($u.principal.asset_id)
 
 	  $asset_id_distinct_count = count_distinct($u.principal.asset_id)
+	  $e.principal.io in cidr %<Internal_Subnets>
 
 	condition:
 	  $u and $asset_context and $risk_score > 50 and not arrays.contains($asset_id_list, "id_1234")
@@ -281,7 +285,7 @@ rule OutcomeSingleEventPostRefactor {
 	outcome:
 	  // We removed the max() aggregate.
 	  $risk_score = if($hostname = "my-hostname", 100, 50)
-	  $dfdf = /md5: [0-9a-zA-Z/dsdsds
+	  $dfdf = /md5: [0-9a-zA-Z/
 
 	condition:
 	  $u

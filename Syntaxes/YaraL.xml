@@ -81,7 +81,6 @@
                         <scope name="yaral.tag.attribute">
                             <expression>(.*)=</expression>
                             <capture number="1" name="meta.parameter.variable" />
-                            <!-- <capture number="2" name="yaral.tag.attribute" /> -->
                         </scope>
                     </subscopes>
                 </scope>
@@ -111,19 +110,32 @@
                 <scope name="yaral.keyword.construct">
                     <expression>\b([0-9]+)([yMdHhms])\b</expression>
                 </scope>
+                <scope name="yaral.function">
+                    <starts-with>
+                        <expression>\b([a-zA-Z._]*\()</expression>
+                        <capture number="1" name="yaral.keyword.construct" />
+                    </starts-with>
+                    <ends-with>
+                        <expression>(\))</expression>
+                        <capture number="1" name="yaral.keyword.construct" />
+                    </ends-with>
+                    <subscopes>
+                        <include syntax="self" collection="comments" optional="true" />
+                        <include syntax="self" collection="commons" />
+                        <include syntax="self" collection="variables" />
+                        <include syntax="self" collection="keywords" />
+                    </subscopes>
+                </scope>
                 <scope name="yaral.identifier.method">
                     <strings>
-                        <string>if</string>
-                        <string>array</string>
-                        <string>array_distinct</string>
-                        <string>count_distinct</string>
-                        <string>count</string>
-                        <string>not</string>
-                        <string>arrays.contains</string>
                         <string>max</string>
                         <string>over</string>
                         <string>and</string>
                         <string>in</string>
+                        <string>all</string>
+                        <string>nocase</string>
+                        <string>after</string>
+                        <string>not</string>
                     </strings>
                 </scope>
             </collection>
@@ -159,6 +171,11 @@
                 </scope>
                 <scope name="yaral.number">
                     <!-- Matches a number -->
+                    <expression>\b\d+([mhdysHMS])\b</expression>
+                    <capture number="1" name="identifier.constant" />
+                </scope>
+                <scope name="yaral.number">
+                    <!-- Matches a number -->
                     <expression>\d+</expression>
                 </scope>
                 <scope name="yaral.boolean">
@@ -184,6 +201,26 @@
                     </starts-with>
                     <ends-with>
                         <expression>&gt;</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </ends-with>
+                </scope>
+                <scope name="reference-type.parameter.variable">
+                    <starts-with>
+                        <expression>\/</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </starts-with>
+                    <ends-with>
+                        <expression>\/</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </ends-with>
+                </scope>
+                <scope name="reference-type.parameter.variable">
+                    <starts-with>
+                        <expression>\`</expression>
+                        <capture number="0" name="yaral.reference-type.keyword"/>
+                    </starts-with>
+                    <ends-with>
+                        <expression>\`</expression>
                         <capture number="0" name="yaral.reference-type.keyword"/>
                     </ends-with>
                 </scope>

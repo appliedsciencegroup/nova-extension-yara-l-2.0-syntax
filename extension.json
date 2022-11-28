@@ -1,8 +1,8 @@
 {
-    "identifier": "org.YaraL",
+    "identifier": "org.yaral",
     "name": "YaraL",
-    "organization": "MyOrganization",
-    "description": "Lorem ipsum, dolor sit amet.",
+    "organization": "appliedsciencegroup",
+    "description": "Nova extension for yaraL syntax highlighting",
     "version": "1.0",
     "categories": ["languages","themes"]
 }

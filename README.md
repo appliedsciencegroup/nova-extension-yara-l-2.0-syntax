@@ -15,7 +15,7 @@ Let's get started!
 🎈 Include a brief description of the features your syntax extension provides. For example:
 -->
 
-**YaraL** provides syntax highlighting and autocompletion for **An Important Language**.
+**YaraL** provides syntax highlighting and autocompletion for YaraL2 (https://cloud.google.com/chronicle/docs/detection/yara-l-2-0-overview).
 
 <!--
 🎈 It can also be helpful to include a screenshot or GIF showing your extension in action:
