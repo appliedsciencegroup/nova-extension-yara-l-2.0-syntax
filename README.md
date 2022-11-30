@@ -48,7 +48,9 @@ P.S. If you'd like, you can remove these comments before submitting your extensi
 
 ## Manual Install
 
-1. Download this project and open with Nova
-2. Click Extensions -> Active Project as Extension
-3. In yaral file, choose Editor in Menu -> Syntax -> YaraL
-4. In Extensions menu, choose Extension Library -> Configure Themes -> select YaraL theme
+1. Download this project as zip file and unzip it
+2. Rename the folder unzipped into YaraL.novaextension
+3. Open this folder with Nova
+4. Click Extensions -> Active Project as Extension
+5. In yaral file, choose Editor in Menu -> Syntax -> YaraL
+6. In Extensions menu, choose Extension Library -> Configure Themes -> select YaraL theme
